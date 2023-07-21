@@ -1,6 +1,12 @@
 #!/bin/bash
 
-if ( (( $# == 1 )) && [ "$1" == "--help" ] ) || (( $# == 0 )); then
+if ! [ -t 0 ]; then
+  DATE="$( cat /proc/self/fd/0 )"
+elif (( $# > 0 )); then
+  DATE="$1"
+fi
+
+if ( (( $# == 1 )) && [ "$1" == "--help" ] ) || ( (( $# == 0 )) && [ -z "$DATE" ] ); then
    echo "Script per la conversione da data in formato RFC822 a ISO8601"
    echo "NOTA: non tiene conto del fuso orario"
    echo ""
@@ -17,7 +23,7 @@ re='^[0-9]+$'
 dre='^([0-1][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$'
 
 IFS=" "
-INDATE=($1)
+INDATE=($DATE)
 unset IFS
 
 DAY=${INDATE[1]}
