@@ -1,0 +1,13 @@
+[Unit]
+Description=PWM Fan Control
+After=sshd.service
+
+[Service]
+Type=simple
+User=root
+ExecStart=/usr/bin/python3 /usr/sbin/fan_ctrl.py
+WorkingDirectory=/tmp/
+Restart=always
+
+[Install]
+WantedBy=default.target
